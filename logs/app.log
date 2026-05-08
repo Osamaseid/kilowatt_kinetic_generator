@@ -1,0 +1,25 @@
+2026-05-08 23:03:03,825 - INFO - Received payload: {'voltage': 480.0, 'amperage': 120.0, 'fuel_level': 80.0, 'status_code': 'NORMAL_OPERATION'}
+2026-05-08 23:03:03,840 - INFO - Received payload: {'voltage': 480.0, 'amperage': 100.0, 'fuel_level': 90.0, 'status_code': 'ROUTINE_TEST'}
+2026-05-08 23:03:03,840 - INFO - ROUTINE_TEST discarded.
+2026-05-08 23:03:03,854 - INFO - Received payload: {'voltage': 480.0, 'amperage': 140.0, 'fuel_level': 10.0, 'status_code': 'NORMAL_OPERATION'}
+2026-05-08 23:03:06,106 - INFO - Critical notification sent for status: NORMAL_OPERATION
+2026-05-08 23:03:06,121 - INFO - Received payload: {'voltage': 480.0, 'amperage': 200.0, 'fuel_level': 40.0, 'status_code': 'CRITICAL_PHASE_LOSS'}
+2026-05-08 23:03:07,613 - INFO - Critical notification sent for status: CRITICAL_PHASE_LOSS
+2026-05-08 23:03:07,626 - INFO - Received payload: {'voltage': 480.0, 'amperage': 0.0, 'fuel_level': 60.0, 'status_code': 'NORMAL_OPERATION'}
+2026-05-08 23:03:07,638 - INFO - Received payload: {'voltage': 480.0, 'amperage': 150.0, 'fuel_level': 15.0, 'status_code': 'NORMAL_OPERATION'}
+2026-05-08 23:03:07,646 - ERROR - Malformed payload from testclient: [{'type': 'float_parsing', 'loc': ('body', 'voltage'), 'msg': 'Input should be a valid number, unable to parse string as a number', 'input': 'INVALID'}, {'type': 'missing', 'loc': ('body', 'amperage'), 'msg': 'Field required', 'input': {'voltage': 'INVALID', 'fuel_level': 50}}, {'type': 'missing', 'loc': ('body', 'status_code'), 'msg': 'Field required', 'input': {'voltage': 'INVALID', 'fuel_level': 50}}]
+2026-05-08 23:03:07,654 - ERROR - Malformed payload from testclient: [{'type': 'value_error', 'loc': ('body', 'status_code'), 'msg': 'Value error, status_code must not be blank.', 'input': '   ', 'ctx': {'error': ValueError('status_code must not be blank.')}}]
+2026-05-08 23:03:48,691 - INFO - Received payload: {'voltage': 480.0, 'amperage': 120.0, 'fuel_level': 80.0, 'status_code': 'NORMAL_OPERATION'}
+2026-05-08 23:03:48,707 - INFO - Received payload: {'voltage': 480.0, 'amperage': 100.0, 'fuel_level': 90.0, 'status_code': 'ROUTINE_TEST'}
+2026-05-08 23:03:48,708 - INFO - ROUTINE_TEST discarded.
+2026-05-08 23:03:48,719 - INFO - Received payload: {'voltage': 480.0, 'amperage': 140.0, 'fuel_level': 10.0, 'status_code': 'NORMAL_OPERATION'}
+2026-05-08 23:03:50,389 - INFO - Critical notification sent for status: NORMAL_OPERATION
+2026-05-08 23:03:50,403 - INFO - Received payload: {'voltage': 480.0, 'amperage': 200.0, 'fuel_level': 40.0, 'status_code': 'CRITICAL_PHASE_LOSS'}
+2026-05-08 23:03:52,735 - INFO - Critical notification sent for status: CRITICAL_PHASE_LOSS
+2026-05-08 23:03:52,749 - INFO - Received payload: {'voltage': 480.0, 'amperage': 0.0, 'fuel_level': 60.0, 'status_code': 'NORMAL_OPERATION'}
+2026-05-08 23:03:52,761 - INFO - Received payload: {'voltage': 480.0, 'amperage': 150.0, 'fuel_level': 15.0, 'status_code': 'NORMAL_OPERATION'}
+2026-05-08 23:03:52,771 - ERROR - Malformed payload from testclient: [{'type': 'float_parsing', 'loc': ('body', 'voltage'), 'msg': 'Input should be a valid number, unable to parse string as a number', 'input': 'INVALID'}, {'type': 'missing', 'loc': ('body', 'amperage'), 'msg': 'Field required', 'input': {'voltage': 'INVALID', 'fuel_level': 50}}, {'type': 'missing', 'loc': ('body', 'status_code'), 'msg': 'Field required', 'input': {'voltage': 'INVALID', 'fuel_level': 50}}]
+2026-05-08 23:03:52,781 - ERROR - Malformed payload from testclient: [{'type': 'value_error', 'loc': ('body', 'status_code'), 'msg': 'Value error, status_code must not be blank.', 'input': '   ', 'ctx': {'error': 'status_code must not be blank.'}}]
+2026-05-08 23:05:06,845 - INFO - Received payload: {'voltage': 480.0, 'amperage': 120.0, 'fuel_level': 80.0, 'status_code': 'NORMAL_OPERATION'}
+2026-05-08 23:05:27,084 - INFO - Received payload: {'voltage': 480.0, 'amperage': 100.0, 'fuel_level': 90.0, 'status_code': 'ROUTINE_TEST'}
+2026-05-08 23:05:27,084 - INFO - ROUTINE_TEST discarded.

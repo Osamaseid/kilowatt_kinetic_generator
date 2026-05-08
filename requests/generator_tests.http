@@ -1,0 +1,222 @@
+# Kilowatt Kinetic – VoltPulse Webhook Test Suite
+# PyCharm HTTP Client  |  Run with: Run All Requests in File
+#
+# Environment variables are resolved from:
+#   requests/http-client.env.json          (committed, non-secret defaults)
+#   requests/http-client.private.env.json  (git-ignored, secret overrides)
+#
+# Select the "dev" environment in the PyCharm HTTP Client toolbar before running.
+
+
+### 1. NORMAL OPERATION – expect 200, runtime calculated, no notification
+
+POST {{host}}/webhook/generator
+Content-Type: application/json
+
+{
+  "voltage": 480,
+  "amperage": 120,
+  "fuel_level": 80,
+  "status_code": "NORMAL_OPERATION"
+}
+
+> {%
+  client.test("Status is 200", function () {
+    client.assert(response.status === 200, "Expected 200");
+  });
+  client.test("Runtime is present", function () {
+    client.assert(
+      response.body.data.estimated_runtime_minutes > 0,
+      "Runtime must be positive"
+    );
+  });
+  client.test("Normal processing message", function () {
+    client.assert(
+      response.body.message === "Webhook processed",
+      "Expected normal processing message"
+    );
+  });
+%}
+
+###
+
+
+### 2. ROUTINE TEST – expect 200, payload silently discarded
+
+POST {{host}}/webhook/generator
+Content-Type: application/json
+
+{
+  "voltage": 480,
+  "amperage": 100,
+  "fuel_level": 90,
+  "status_code": "ROUTINE_TEST"
+}
+
+> {%
+  client.test("Status is 200", function () {
+    client.assert(response.status === 200, "Expected 200");
+  });
+  client.test("Maintenance ping discarded", function () {
+    client.assert(
+      response.body.message === "Routine maintenance ignored",
+      "Expected maintenance discard message"
+    );
+  });
+%}
+
+###
+
+
+### 3. LOW FUEL WARNING – fuel_level 10% is below 15% threshold, expect critical notification
+
+POST {{host}}/webhook/generator
+Content-Type: application/json
+
+{
+  "voltage": 480,
+  "amperage": 140,
+  "fuel_level": 10,
+  "status_code": "NORMAL_OPERATION"
+}
+
+> {%
+  client.test("Status is 200", function () {
+    client.assert(response.status === 200, "Expected 200");
+  });
+  client.test("Runtime reflects low fuel", function () {
+    client.assert(
+      response.body.data.estimated_runtime_minutes > 0,
+      "Runtime must be positive even at low fuel"
+    );
+  });
+%}
+
+###
+
+
+### 4. CRITICAL PHASE LOSS – expect critical notification regardless of fuel level
+
+POST {{host}}/webhook/generator
+Content-Type: application/json
+
+{
+  "voltage": 480,
+  "amperage": 200,
+  "fuel_level": 40,
+  "status_code": "CRITICAL_PHASE_LOSS"
+}
+
+> {%
+  client.test("Status is 200", function () {
+    client.assert(response.status === 200, "Expected 200");
+  });
+  client.test("Status code echoed correctly", function () {
+    client.assert(
+      response.body.data.status_code === "CRITICAL_PHASE_LOSS",
+      "Expected CRITICAL_PHASE_LOSS in response"
+    );
+  });
+%}
+
+###
+
+
+### 5. ZERO AMPERAGE EDGE CASE – generator idle, runtime must return 0
+
+POST {{host}}/webhook/generator
+Content-Type: application/json
+
+{
+  "voltage": 480,
+  "amperage": 0,
+  "fuel_level": 60,
+  "status_code": "NORMAL_OPERATION"
+}
+
+> {%
+  client.test("Status is 200", function () {
+    client.assert(response.status === 200, "Expected 200");
+  });
+  client.test("Runtime is 0 when load is zero", function () {
+    client.assert(
+      response.body.data.estimated_runtime_minutes === 0,
+      "Expected 0 runtime for zero-amperage load"
+    );
+  });
+%}
+
+###
+
+
+### 6. FUEL AT EXACT BOUNDARY – fuel_level 15% must NOT trigger critical alert
+
+POST {{host}}/webhook/generator
+Content-Type: application/json
+
+{
+  "voltage": 480,
+  "amperage": 150,
+  "fuel_level": 15,
+  "status_code": "NORMAL_OPERATION"
+}
+
+> {%
+  client.test("Status is 200", function () {
+    client.assert(response.status === 200, "Expected 200");
+  });
+  client.test("Boundary fuel level is not critical", function () {
+    client.assert(
+      response.body.message === "Webhook processed",
+      "15% fuel is not below threshold, should not escalate"
+    );
+  });
+%}
+
+###
+
+
+### 7. MALFORMED PAYLOAD – missing required fields and invalid type – expect 422
+
+POST {{host}}/webhook/generator
+Content-Type: application/json
+
+{
+  "voltage": "INVALID",
+  "fuel_level": 50
+}
+
+> {%
+  client.test("Status is 422", function () {
+    client.assert(response.status === 422, "Expected 422 for malformed payload");
+  });
+  client.test("Error detail is present", function () {
+    client.assert(
+      response.body.detail.length > 0,
+      "Expected at least one validation error"
+    );
+  });
+%}
+
+###
+
+
+### 8. BLANK STATUS CODE – expect 422 from field_validator
+
+POST {{host}}/webhook/generator
+Content-Type: application/json
+
+{
+  "voltage": 480,
+  "amperage": 100,
+  "fuel_level": 50,
+  "status_code": "   "
+}
+
+> {%
+  client.test("Status is 422", function () {
+    client.assert(response.status === 422, "Expected 422 for blank status_code");
+  });
+%}
+
+###
