@@ -23,3 +23,10 @@
 2026-05-08 23:05:06,845 - INFO - Received payload: {'voltage': 480.0, 'amperage': 120.0, 'fuel_level': 80.0, 'status_code': 'NORMAL_OPERATION'}
 2026-05-08 23:05:27,084 - INFO - Received payload: {'voltage': 480.0, 'amperage': 100.0, 'fuel_level': 90.0, 'status_code': 'ROUTINE_TEST'}
 2026-05-08 23:05:27,084 - INFO - ROUTINE_TEST discarded.
+2026-05-08 23:31:17,518 - INFO - Received payload: {'voltage': 480.0, 'amperage': 120.0, 'fuel_level': 80.0, 'status_code': 'NORMAL_OPERATION'}
+2026-05-08 23:38:34,266 - INFO - Received payload: {'voltage': 480.0, 'amperage': 200.0, 'fuel_level': 40.0, 'status_code': 'CRITICAL_PHASE_LOSS'}
+2026-05-08 23:38:35,968 - INFO - Critical notification sent for status: CRITICAL_PHASE_LOSS
+2026-05-08 23:47:46,489 - INFO - Received payload: {'voltage': 480.0, 'amperage': 200.0, 'fuel_level': 40.0, 'status_code': 'CRITICAL_PHASE_LOSS'}
+2026-05-08 23:47:48,313 - INFO - Critical notification sent for status: CRITICAL_PHASE_LOSS
+2026-05-08 23:52:44,903 - INFO - Received payload: {'voltage': 480.0, 'amperage': 200.0, 'fuel_level': 40.0, 'status_code': 'CRITICAL_PHASE_LOSS'}
+2026-05-08 23:52:46,932 - INFO - Critical notification sent for status: CRITICAL_PHASE_LOSS

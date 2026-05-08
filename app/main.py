@@ -86,7 +86,7 @@ def process_generator_webhook(payload: GeneratorPayload) -> dict:
 
     if is_critical_event(payload.status_code, payload.fuel_level):
         try:
-            send_notification(response_data)
+            send_notification(response_data)  # <- SET BREAKPOINT HERE
             logger.info("Critical notification sent for status: %s", payload.status_code)
         except Exception as error:
             logger.error("Notification failed: %s", error)

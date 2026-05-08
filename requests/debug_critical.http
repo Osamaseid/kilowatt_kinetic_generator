@@ -1,0 +1,35 @@
+# Debug trigger – fires a CRITICAL_PHASE_LOSS event to hit the breakpoint
+# in main.py on the send_notification() call.
+#
+# Steps before recording:
+#   1. Set a breakpoint on the line marked  <- SET BREAKPOINT HERE  in main.py
+#   2. Start the server in Debug mode via the "Kilowatt Kinetic" run config
+#   3. Run this request from the HTTP Client
+#   4. PyCharm will pause at the breakpoint – inspect `response_data` in the
+#      Variables panel, then Resume (F9) to let the notification fire
+
+### CRITICAL PHASE LOSS – debugger trigger
+
+POST {{host}}/webhook/generator
+Content-Type: application/json
+
+{
+  "voltage": 480,
+  "amperage": 200,
+  "fuel_level": 40,
+  "status_code": "CRITICAL_PHASE_LOSS"
+}
+
+> {%
+  client.test("Status is 200", function () {
+    client.assert(response.status === 200, "Expected 200 after resuming debugger");
+  });
+  client.test("Notification was dispatched", function () {
+    client.assert(
+      response.body.data.status_code === "CRITICAL_PHASE_LOSS",
+      "Expected CRITICAL_PHASE_LOSS echoed in response"
+    );
+  });
+%}
+
+###
